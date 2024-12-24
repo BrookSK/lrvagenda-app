@@ -6,6 +6,7 @@ cache/
 uploads/
 vendor/
 logs/*
+/application/logs/*.php
 .DS_Store
 Thumbs.db
 *.log

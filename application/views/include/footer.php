@@ -153,7 +153,7 @@
     <?php if($page == 'Company'): ?>
         <?php $terms_url = base_url('termos_condicoes/'.$slug); ?>
     <?php else: ?>
-        <?php $terms_url = echo trans('terms-and-conditions-link'); ?>
+        <?php $terms_url = trans('terms-and-conditions-link'); ?>
     <?php endif; ?>
 
     <?php if(empty($is_embed) || $is_embed==false ): ?>
