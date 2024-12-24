@@ -4,3 +4,14 @@ install/
 /application/config/database.php
 cache/
 uploads/
+vendor/
+.DS_Store
+Thumbs.db
+*.log
+*.bak
+*.swp
+*.swo
+*.tmp
+.idea/
+.vscode/
+*.~undo-tree~
