@@ -1,6 +1,6 @@
 install/
 /application/config/database.php
-install/
+session/
 /application/config/database.php
 cache/
 uploads/
