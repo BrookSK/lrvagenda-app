@@ -147,9 +147,9 @@
 
 
     <?php if($page == 'Company'): ?>
-        <?php $terms_url = base_url('terms_privacy/'.$slug); ?>
+        <?php $terms_url = base_url('termos_condicoes/'.$slug); ?>
     <?php else: ?>
-        <?php $terms_url = base_url('page/terms-of-service'); ?>
+        <?php $terms_url = base_url('page/termos-e-condicoes'); ?>
     <?php endif; ?>
 
     <?php if(empty($is_embed) || $is_embed==false ): ?>

@@ -398,8 +398,8 @@
                                                 id="terms-condition" required>
                                             <label class="custom-control-label" for="terms-condition">
                                                 <?php echo trans('i-have-read-and-understood-the') ?> 
-                                                <a href="<?php echo base_url('terms-and-conditions/'.$company->slug) ?>"><?php echo trans('terms-and-conditions') ?></a>
-                                                <?php echo trans('and') ?> <a href="<?php echo base_url('privacy-policy/'.$company->slug) ?>"> <?php echo trans('privacy-policy') ?> </a><?php echo trans('of-this-site') ?>.</label>
+                                                <a href="<?php echo base_url('termos-e-condicoes/'.$company->slug) ?>"><?php echo trans('terms-and-conditions') ?></a>
+                                                <?php echo trans('and') ?> <a href="<?php echo base_url('politica-de-privacidade/'.$company->slug) ?>"> <?php echo trans('privacy-policy') ?> </a><?php echo trans('of-this-site') ?>.</label>
                                         </div>
                                     </div>
                                 

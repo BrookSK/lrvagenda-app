@@ -18,8 +18,8 @@
                     </div>
                     <div class="col-6">
                         <ul class="list-inline-item mb-0">
-                            <li class="list-inline-item"><a href="<?php echo base_url('page/privacy-policy') ?>" class="text-white-85 hover-white"><?php echo trans('privacy') ?></a></li>
-                            <li class="list-inline-item"><a href="<?php echo base_url('page/terms-of-service') ?>" class="text-white-85 hover-white"><?php echo trans('terms') ?></a></li>
+                            <li class="list-inline-item"><a href="<?php echo base_url('page/politica-de-privacidade') ?>" class="text-white-85 hover-white"><?php echo trans('privacy') ?></a></li>
+                            <li class="list-inline-item"><a href="<?php echo base_url('page/termos-e-condicoes') ?>" class="text-white-85 hover-white"><?php echo trans('terms') ?></a></li>
                         </ul>
                     </div>
                 </div>

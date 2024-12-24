@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4 overflow-auto">
     <!-- Brand Logo -->
     <a target="_blank" href="<?php echo base_url() ?>" class="brand-link">
-      <img src="<?php echo base_url(settings()->favicon) ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
+      <img src="<?php echo base_url(settings()->favicon) ?>" alt="AdminLTE Logo" class="brand-image img-circle <?php if($settings->layout == '1'){echo "elevation-3";} ?>">
       <span class="brand-text font-weight-bold"><?php echo html_escape(settings()->site_name) ?></span>
       <?php if(get_user_info() == TRUE){$uval = 'd-show';}else{$uval = 'd-hide';} ?>
     </a>

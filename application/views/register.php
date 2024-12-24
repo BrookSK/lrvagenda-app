@@ -127,8 +127,8 @@
                                     id="terms-condition" required>
                                 <label class="custom-control-label" for="terms-condition">
                                     <?php echo trans('i-have-read-and-understood-the') ?> <a
-                                        href="<?php echo base_url('page/terms-of-service') ?>"><?php echo trans('terms-and-conditions') ?></a>
-                                    <?php echo trans('and') ?> <a href="<?php echo base_url('page/privacy-policy') ?>"> <?php echo trans('privacy-policy') ?> </a><?php echo trans('of-this-site') ?>.</label>
+                                        href="<?php echo base_url('page/termos-e-condicoes') ?>"><?php echo trans('termos-e-condicoes') ?></a>
+                                    <?php echo trans('and') ?> <a href="<?php echo base_url('page/politica-de-privacidade') ?>"> <?php echo trans('politica-de-privacidade') ?> </a><?php echo trans('of-this-site') ?>.</label>
                             </div>
                         </div>
 
@@ -234,10 +234,10 @@
                     </div>
                     <div class="col-6">
                         <ul class="list-inline-item mb-0">
-                            <li class="list-inline-item"><a href="<?php echo base_url('page/privacy-policy') ?>"
-                                    class="text-white-85 hover-white"><?php echo trans('privacy') ?></a></li>
-                            <li class="list-inline-item"><a href="<?php echo base_url('page/terms-of-service') ?>"
-                                    class="text-white-85 hover-white"><?php echo trans('terms') ?></a></li>
+                            <li class="list-inline-item"><a href="<?php echo base_url('page/politica-de-privacidade') ?>"
+                                    class="text-white-85 hover-white"><?php echo trans('privacidade') ?></a></li>
+                            <li class="list-inline-item"><a href="<?php echo base_url('page/termos-e-condicoes') ?>"
+                                    class="text-white-85 hover-white"><?php echo trans('termos') ?></a></li>
                         </ul>
                     </div>
                 </div>
