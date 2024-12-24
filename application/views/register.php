@@ -127,8 +127,8 @@
                                     id="terms-condition" required>
                                 <label class="custom-control-label" for="terms-condition">
                                     <?php echo trans('i-have-read-and-understood-the') ?> <a
-                                        href="<?php echo base_url('page/termos-e-condicoes') ?>"><?php echo trans('termos-e-condicoes') ?></a>
-                                    <?php echo trans('and') ?> <a href="<?php echo base_url('page/politica-de-privacidade') ?>"> <?php echo trans('politica-de-privacidade') ?> </a><?php echo trans('of-this-site') ?>.</label>
+                                        href="<?php echo trans('terms-and-conditions-link') ?>"><?php echo trans('termos-e-condicoes') ?></a>
+                                    <?php echo trans('and') ?> <a href="<?php echo trans('privacy-policy-link') ?>"> <?php echo trans('politica-de-privacidade') ?> </a><?php echo trans('of-this-site') ?>.</label>
                             </div>
                         </div>
 
@@ -229,14 +229,25 @@
             <div class="position-absolute right-0 bottom-0 left-0 text-center text-white p-5 hide">
                 <div class="row">
                     <div class="col-6">
+                        <!-- <p class="mb-0 mt-1"><span class="text-white-85"> </span></p> -->
+                        <!-- CSS para alteração da cor do texto de copy e LRV -->
+                        <style>
+                            p.mb-0 * {
+                                color: white !important;
+                            }
+                            span.font-weight-bold.text-dark {
+                                color: #6a747b !important;
+                            }
+                        </style>
                         <p class="mb-0 mt-1"><span class="text-white-85">
-                                <?php echo html_escape(settings()->copyright) ?></span></p>
+                            <?php echo html_escape(settings()->copyright) ?></span>
+                        </p>
                     </div>
                     <div class="col-6">
                         <ul class="list-inline-item mb-0">
-                            <li class="list-inline-item"><a href="<?php echo base_url('page/politica-de-privacidade') ?>"
+                            <li class="list-inline-item"><a href="<?php echo trans('privacy-policy-link') ?>"
                                     class="text-white-85 hover-white"><?php echo trans('privacidade') ?></a></li>
-                            <li class="list-inline-item"><a href="<?php echo base_url('page/termos-e-condicoes') ?>"
+                            <li class="list-inline-item"><a href="<?php echo trans('terms-and-conditions-link') ?>"
                                     class="text-white-85 hover-white"><?php echo trans('termos') ?></a></li>
                         </ul>
                     </div>

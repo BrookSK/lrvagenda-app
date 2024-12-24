@@ -7,19 +7,30 @@
 
             <div class="position-relative">
                 <h1 class="text-white display-4 custom-font" data-aos="fade-up" data-aos-duration="300"><?php echo html_escape(settings()->site_name) ?></h1>
-                <p class="lead text-white-90 mb-0 w-85 w-xl-70 mx-auto" data-aos="fade-up" data-aos-duration="400"><?php echo html_escape(settings()->description) ?>
+                <!-- <p class="lead text-white-90 mb-0 w-85 w-xl-70 mx-auto" data-aos="fade-up" data-aos-duration="400"><?php echo html_escape(settings()->description) ?> -->
+                <p class="lead text-white-90 mb-0 w-85 w-xl-70 mx-auto" data-aos="fade-up" data-aos-duration="400"><?php echo trans('description-login-page') ?>
                 </p>
             </div>
 
             <div class="position-absolute right-0 bottom-0 left-0 text-center text-white p-5">
                 <div class="row">
                     <div class="col-6">
-                        <p class="mb-0 mt-1"><span class="text-white-85"> <?php echo html_escape(settings()->copyright) ?></span></p>
+                        <!-- <p class="mb-0 mt-1"><span class="text-white-85"> <?php //echo html_escape(settings()->copyright) ?></span></p> -->
+                        <!-- CSS para alteração da cor do texto de copy e LRV -->
+                        <style>
+                            p.mb-0 * {
+                                color: white !important;
+                            }
+                            span.font-weight-bold.text-dark {
+                                color: #6a747b !important;
+                            }
+                        </style>
+                        <p class="mb-0 mt-1 text-white-85"><?php echo lang_value()->copyright ?></p>
                     </div>
                     <div class="col-6">
                         <ul class="list-inline-item mb-0">
-                            <li class="list-inline-item"><a href="<?php echo base_url('page/politica-de-privacidade') ?>" class="text-white-85 hover-white"><?php echo trans('privacy') ?></a></li>
-                            <li class="list-inline-item"><a href="<?php echo base_url('page/termos-e-condicoes') ?>" class="text-white-85 hover-white"><?php echo trans('terms') ?></a></li>
+                            <li class="list-inline-item"><a href="<?php echo trans('privacy-policy-link') ?>" class="text-white-85 hover-white"><?php echo trans('privacy') ?></a></li>
+                            <li class="list-inline-item"><a href="<?php echo trans('terms-and-conditions-link') ?>" class="text-white-85 hover-white"><?php echo trans('terms') ?></a></li>
                         </ul>
                     </div>
                 </div>
@@ -45,7 +56,7 @@
                 <div class="mb-6 text-center">
                     <?php get_last_logins(); ?>
                     <h4 class="font-weight-bold mb-0"><a href="<?php echo base_url() ?>"><img width="30%" src="<?php echo base_url(settings()->logo) ?>"></a></h4>
-                    <p class="mb-0"><?php echo trans('sign-in-to-your') ?> <span class="font-weight-bold text-dark"><?php echo html_escape(settings()->site_name) ?> </span> <?php echo trans('account') ?></p>
+                    <p class="mb-0"><?php echo trans('sign-in-to-your') ?> <?php echo trans('account') ?> <span class="font-weight-bold text-dark"><?php echo html_escape(settings()->site_name) ?> </span></p>
                 </div>
 
                 <div class="mb-4 mt-4">
