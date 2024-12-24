@@ -5,6 +5,7 @@ session/
 cache/
 uploads/
 vendor/
+logs/*
 .DS_Store
 Thumbs.db
 *.log
