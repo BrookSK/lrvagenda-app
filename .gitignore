@@ -2,6 +2,7 @@ install/
 /application/config/database.php
 session/
 /application/config/database.php
+application/config/database.php
 cache/
 uploads/
 vendor/
