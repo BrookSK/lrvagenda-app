@@ -32815,15 +32815,25 @@ label.btn.btn-outline-primary.custom-btngp.actives {
 
 /*sidebar steps*/
 .feature-steps {
-    width: 325px;
-    position: absolute;
-    bottom: 25%;
-    left: 72%;
-    background: #fff;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 0 40px rgb(0 0 0 / 17%);
+  /* width: 325px;
+  position: absolute;
+  bottom: 25%;
+  left: 72%;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgb(0 0 0 / 17%); */
+  width: 325px;
+  position: fixed; /* Muda de absolute para fixed */
+  top: 10%; /* Fica um pouco abaixo do topo */
+  right: 2%; /* Fica afastado da margem direita */
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgb(0 0 0 / 17%);
+  z-index: 100;
 }
 
 .feature-steps a {
