@@ -32817,8 +32817,8 @@ label.btn.btn-outline-primary.custom-btngp.actives {
 .feature-steps {
     width: 325px;
     position: absolute;
-    bottom: 0%;
-    left: 50%;
+    bottom: 25%;
+    left: 72%;
     background: #fff;
     border: 2px solid #ddd;
     border-radius: 10px;
