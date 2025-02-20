@@ -127,8 +127,8 @@
                                     id="terms-condition" required>
                                 <label class="custom-control-label" for="terms-condition">
                                     <?php echo trans('i-have-read-and-understood-the') ?> <a
-                                        href="<?php echo trans('terms-and-conditions-link') ?>"><?php echo trans('termos-e-condicoes') ?></a>
-                                    <?php echo trans('and') ?> <a href="<?php echo trans('privacy-policy-link') ?>"> <?php echo trans('politica-de-privacidade') ?> </a><?php echo trans('of-this-site') ?>.</label>
+                                        href="<?php echo trans('terms-and-conditions-link') ?>"><?php echo trans('terms') ?></a>
+                                    <?php echo trans('and') ?> <a href="<?php echo trans('privacy-policy-link') ?>"> <?php echo trans('privacy') ?> </a><?php echo trans('of-this-site') ?>.</label>
                             </div>
                         </div>
 
