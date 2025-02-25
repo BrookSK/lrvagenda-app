@@ -3,6 +3,29 @@
     <!-- Content Header (Page header) -->
     <?php $this->load->view('admin/include/breadcrumb'); ?>
 
+    <!-- Ajuste de CSS para essa página de setup -->
+    <style>
+        nav.main-header.navbar.navbar-expand.navbar-white.navbar-light {
+            display: none !important;
+        }
+        aside.main-sidebar.sidebar-dark-primary.elevation-4.overflow-auto {
+            display: none !important;
+        }
+        .content-wrapper {
+            margin-left: 0px !important;
+        }
+        .feature-steps {
+            display: none !important;
+        }
+        label.text-danger.text-setup-page-lrv {
+            font-size: 12px !important;
+        }
+        .card-header.card-lrv-setup {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+    </style>
+
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -11,8 +34,11 @@
             <div class="col-lg-9 pl-3">
                 <form method="post" action="<?php echo base_url('admin/dashboard/update_setup') ?>">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header card-lrv-setup">
                           <h5 class="card-title"><?php echo trans('setup-business') ?></h5>
+                            <div class="form-group mb-2">
+                                <label class="text-danger text-setup-page-lrv">Complete seu cadastro para continuar!</label>  
+                            </div>
                         </div>
 
                         <div class="card-body">
