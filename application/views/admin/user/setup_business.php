@@ -24,6 +24,10 @@
             display: flex !important;
             flex-direction: column !important;
         }
+        footer.main-footer {
+            margin-left: 20px !important;
+            margin-right: 20px !important;
+        }
     </style>
 
     <!-- Main content -->
