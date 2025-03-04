@@ -19,3 +19,6 @@ Thumbs.db
 .vscode/
 *.~undo-tree~
 application/config/database.php
+.user.ini
+error_log
+php.ini
