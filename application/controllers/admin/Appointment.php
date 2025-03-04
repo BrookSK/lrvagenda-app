@@ -352,11 +352,23 @@ class Appointment extends Home_Controller {
         if($status == 1){
             $status_text = trans('confirmed');
 
+            // Obter detalhes do agendamento
+            $appointment = $this->admin_model->get_by_id($id, 'appointments');
+            $customer = $this->admin_model->get_by_id($appointment->customer_id, 'customers');
+            $service = $this->admin_model->get_by_id($appointment->service_id, 'services');
+            $staff = $this->admin_model->get_by_id($appointment->staff_id, 'staffs');
+
             // Enviar webhook ao mudar para aprovado
             $webhook_url = 'https://webhook.site/362360eb-2d59-4090-8829-c8901a98143b';
             $payload = json_encode([
                 'appointment_id' => $id,
-                'status' => 'approved'
+                'status' => 'approved',
+                'customer_name' => $customer->name,
+                'appointment_start' => $appointment->date . ' ' . $appointment->time,
+                'appointment_end' => $appointment->end_date . ' ' . $appointment->end_time,
+                'amount_paid' => $appointment->amount,
+                'service_duration' => $service->duration,
+                'staff_name' => $staff->name
             ]);
             
             $ch = curl_init($webhook_url);
