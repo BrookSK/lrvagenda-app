@@ -351,6 +351,21 @@ class Appointment extends Home_Controller {
 
         if($status == 1){
             $status_text = trans('confirmed');
+
+            // Enviar webhook ao mudar para aprovado
+            $webhook_url = 'https://webhook.site/362360eb-2d59-4090-8829-c8901a98143b';
+            $payload = json_encode([
+                'appointment_id' => $id,
+                'status' => 'approved'
+            ]);
+            
+            $ch = curl_init($webhook_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            $response = curl_exec($ch);
+            curl_close($ch);
         }
 
         if($status == 2){
