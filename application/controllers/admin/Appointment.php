@@ -365,7 +365,6 @@ class Appointment extends Home_Controller {
                 'status' => 'approved',
                 'customer_name' => $customer->name,
                 'appointment_start' => $appointment->date . ' ' . $appointment->time,
-                'appointment_end' => $appointment->end_date . ' ' . $appointment->end_time,
                 'amount_paid' => $appointment->amount,
                 'service_duration' => $service->duration,
                 'staff_name' => $staff->name

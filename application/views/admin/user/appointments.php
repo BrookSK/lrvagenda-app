@@ -370,7 +370,7 @@
 
                   </form>
                 </div>
-                  
+                  <?php var_dump($appointment); ?>
 
                 <div class="card-body table-responsive p-0 minh-300">
                  
