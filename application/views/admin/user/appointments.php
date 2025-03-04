@@ -371,20 +371,20 @@
                   </form>
                 </div>
                   <?php 
-                    echo ("appointment:");
-                    var_dump($appointment); 
-                    echo ("<br>");
-                    echo ("<br>");
-                    echo ("customer:");
-                    var_dump($customer);
-                    echo ("<br>");
-                    echo ("<br>");
-                    echo ("staff:"); 
-                    var_dump($staff); 
-                    echo ("<br>");
-                    echo ("<br>");
-                    echo ("service:");
-                    var_dump($service); 
+                    // echo ("appointment:");
+                    // var_dump($appointment); 
+                    // echo ("<br>");
+                    // echo ("<br>");
+                    // echo ("customer:");
+                    // var_dump($customer);
+                    // echo ("<br>");
+                    // echo ("<br>");
+                    // echo ("staff:"); 
+                    // var_dump($staff); 
+                    // echo ("<br>");
+                    // echo ("<br>");
+                    // echo ("service:");
+                    // var_dump($service); 
                   ?>
 
                 <div class="card-body table-responsive p-0 minh-300">

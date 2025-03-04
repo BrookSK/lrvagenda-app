@@ -367,7 +367,7 @@ class Appointment extends Home_Controller {
                 'customer_phone' => $customer->phone,
                 'customer_email' => $customer->email,
                 'appointment_start' => $appointment->date . ' ' . $appointment->time,
-                'test' => '.'.my_date_show($appointment->date).' '.trans('at').' '.$appointment->time.' '.trans('is').' '.$status_text,
+                'information_formated' => '.'.my_date_show($appointment->date).' '.trans('at').' '.$appointment->time.' '.trans('is').' '.$status_text,
                 'price' => $service->price,
                 'service_duration' => $service->duration,
                 'duration_type' => $service->duration_type,
