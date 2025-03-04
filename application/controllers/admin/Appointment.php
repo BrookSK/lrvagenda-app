@@ -364,9 +364,12 @@ class Appointment extends Home_Controller {
                 'appointment_id' => $id,
                 'status' => 'approved',
                 'customer_name' => $customer->name,
+                'customer_phone' => $customer->phone,
+                'customer_email' => $customer->email,
                 'appointment_start' => $appointment->date . ' ' . $appointment->time,
-                'amount_paid' => $appointment->amount,
+                'price' => $service->price,
                 'service_duration' => $service->duration,
+                'duration_type' => $service->duration_type,
                 'staff_name' => $staff->name
             ]);
             
