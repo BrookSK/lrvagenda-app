@@ -1,12 +1,11 @@
 ﻿<?php
 function sendWebhook($appointment) {
-    // Verifica se o status é "br-success" (status = 1)
-    if ($appointment->status == 1) {
-        
-        // URL do webhook
-        $webhook_url = "https://webhook.site/9bd1e010-aba4-476c-944d-3331be3f2ecc";
+    // URL do webhook de destino
+    $webhookUrl = "https://webhook.site/9bd1e010-aba4-476c-944d-3331be3f2ecc"; 
 
-        // Dados a serem enviados
+    // Verifica se o status do agendamento é "br-success" (status == 1)
+    if ($appointment->status == 1) {
+        // Dados a serem enviados no webhook
         $payload = json_encode([
             "appointment_id" => $appointment->id,
             "customer_id" => $appointment->customer_id,
@@ -14,34 +13,29 @@ function sendWebhook($appointment) {
             "staff_id" => $appointment->staff_id,
             "date" => $appointment->date,
             "time" => $appointment->time,
-            "status" => "approved"
+            "status" => "approved" // Indicação de que foi aprovado
         ]);
 
-        // Inicializa o cURL
-        $ch = curl_init($webhook_url);
-        
-        // Configurações do cURL
+        // Configuração do cURL para enviar a requisição POST
+        $ch = curl_init($webhookUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($payload)
-        ]);
-        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Content-Type: application/json",
+            "Content-Length: " . strlen($payload)
+        ]);
 
         // Executa a requisição
         $response = curl_exec($ch);
-
-        // Verifica erros
-        if (curl_errno($ch)) {
-            error_log("Erro ao enviar webhook: " . curl_error($ch));
-        }
-
-        // Fecha conexão
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+
+        // Log opcional para debug
+        error_log("Webhook enviado para $webhookUrl - Status: $httpCode - Resposta: $response");
     }
 }
 
-// Exemplo de uso no código existente
+// Exemplo de uso (insira dentro do loop ou onde os agendamentos são carregados)
 sendWebhook($appointment);
 ?>
