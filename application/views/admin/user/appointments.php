@@ -371,9 +371,16 @@
                   </form>
                 </div>
                   <?php 
+                    echo ("appointment:");
                     var_dump($appointment); 
-                    var_dump($customer); 
+                    echo ("<br>");
+                    echo ("customer:");
+                    var_dump($customer);
+                    echo ("<br>");
+                    echo ("staff:"); 
                     var_dump($staff); 
+                    echo ("<br>");
+                    echo ("service:");
                     var_dump($service); 
                   ?>
 
