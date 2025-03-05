@@ -505,6 +505,18 @@ class Settings extends Home_Controller {
         redirect(base_url('admin/settings/whatsapp'));
     }
 
+    //função para atualizar o webhook
+    public function update_webhook_url() {
+        $user_id = $_SESSION['user_id']; // Ajuste conforme sua autenticação
+        $webhook_url = $this->input->post('webhook_url', true);
+        
+        $data = array('webhook_url' => $webhook_url);
+        $this->admin_model->update($data, $user_id, 'users');
+        
+        $this->session->set_flashdata('success', 'Webhook atualizado com sucesso!');
+        redirect('admin/settings/whatsapp');
+    }    
+
 
     //set default language
     public function set_language()

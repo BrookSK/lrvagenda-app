@@ -358,29 +358,32 @@ class Appointment extends Home_Controller {
             $service = $this->admin_model->get_by_id($appointment->service_id, 'services');
             $staff = $this->admin_model->get_by_id($appointment->staff_id, 'staffs');
 
-            // Enviar webhook ao mudar para aprovado
-            $webhook_url = 'https://webhook.site/362360eb-2d59-4090-8829-c8901a98143b';
-            $payload = json_encode([
-                'appointment_id' => $id,
-                'status' => 'approved',
-                'customer_name' => $customer->name,
-                'customer_phone' => $customer->phone,
-                'customer_email' => $customer->email,
-                'appointment_start' => $appointment->date . ' ' . $appointment->time,
-                'information_formated' => '.'.my_date_show($appointment->date).' '.trans('at').' '.$appointment->time.' '.trans('is').' '.$status_text,
-                'price' => $service->price,
-                'service_duration' => $service->duration,
-                'duration_type' => $service->duration_type,
-                'staff_name' => $staff->name
-            ]);
-            
-            $ch = curl_init($webhook_url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-            $response = curl_exec($ch);
-            curl_close($ch);
+            if (!empty($user->webhook_url)) {
+                // Enviar webhook ao mudar para aprovado
+                $webhook_url = $user->webhook_url;
+                // $webhook_url = 'https://webhook.site/362360eb-2d59-4090-8829-c8901a98143b';
+                $payload = json_encode([
+                    'appointment_id' => $id,
+                    'status' => 'approved',
+                    'customer_name' => $customer->name,
+                    'customer_phone' => $customer->phone,
+                    'customer_email' => $customer->email,
+                    'appointment_start' => $appointment->date . ' ' . $appointment->time,
+                    'information_formated' => '.'.my_date_show($appointment->date).' '.trans('at').' '.$appointment->time.' '.trans('is').' '.$status_text,
+                    'price' => $service->price,
+                    'service_duration' => $service->duration,
+                    'duration_type' => $service->duration_type,
+                    'staff_name' => $staff->name
+                ]);
+                
+                $ch = curl_init($webhook_url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+                $response = curl_exec($ch);
+                curl_close($ch);
+            }
         }
 
         if($status == 2){

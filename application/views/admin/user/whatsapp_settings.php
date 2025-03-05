@@ -105,6 +105,12 @@
                             <button type="submit" class="btn btn-primary mt-2"> <?php echo trans('save-changes') ?></button>
                         </div>
                     </form>
+                    <!-- campo onde o usuário pode inserir a URL do webhook -->
+                    <form method="post" action="<?= base_url('admin/settings/update_webhook_url'); ?>">
+                      <label for="webhook_url">URL do Webhook</label>
+                      <input type="text" name="webhook_url" value="<?= isset($user->webhook_url) ? $user->webhook_url : ''; ?>" required>
+                      <button type="submit">Salvar Webhook</button>
+                  </form>
                 </div>
             </div>
 
