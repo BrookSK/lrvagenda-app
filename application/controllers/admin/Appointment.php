@@ -352,50 +352,50 @@ class Appointment extends Home_Controller {
         if($status == 1){
             $status_text = trans('confirmed');
 
-            // Obter detalhes do agendamento
-            $appointment = $this->admin_model->get_by_id($id, 'appointments');
-            $customer = $this->admin_model->get_by_id($appointment->customer_id, 'customers');
-            $service = $this->admin_model->get_by_id($appointment->service_id, 'services');
-            $staff = $this->admin_model->get_by_id($appointment->staff_id, 'staffs');
+            // // Obter detalhes do agendamento
+            // $appointment = $this->admin_model->get_by_id($id, 'appointments');
+            // $customer = $this->admin_model->get_by_id($appointment->customer_id, 'customers');
+            // $service = $this->admin_model->get_by_id($appointment->service_id, 'services');
+            // $staff = $this->admin_model->get_by_id($appointment->staff_id, 'staffs');
 
-            // Buscar os dados do usuário logado para pegar o webhook_url
-            $user = $this->admin_model->get_by_id(user()->id, 'users');
+            // // Buscar os dados do usuário logado para pegar o webhook_url
+            // $user = $this->admin_model->get_by_id(user()->id, 'users');
 
-            if (!empty($user->webhook_url)) {
-                // Enviar webhook ao mudar para aprovado
-                $webhook_url = $user->webhook_url;
-                // $webhook_url = 'https://webhook.site/362360eb-2d59-4090-8829-c8901a98143b';
-                $payload = json_encode([
-                    'appointment_id' => $id,
-                    'status' => 'approved',
-                    'customer_name' => $customer->name,
-                    'customer_phone' => $customer->phone,
-                    'customer_email' => $customer->email,
-                    'appointment_start' => $appointment->date . ' ' . $appointment->time,
-                    'information_formated' => '.'.my_date_show($appointment->date).' '.trans('at').' '.$appointment->time.' '.trans('is').' '.$status_text,
-                    'price' => $service->price,
-                    'service_duration' => $service->duration,
-                    'duration_type' => $service->duration_type,
-                    'staff_name' => $staff->name
-                ]);
+            // if (!empty($user->webhook_url)) {
+            //     // Enviar webhook ao mudar para aprovado
+            //     $webhook_url = $user->webhook_url;
+            //     // $webhook_url = 'https://webhook.site/362360eb-2d59-4090-8829-c8901a98143b';
+            //     $payload = json_encode([
+            //         'appointment_id' => $id,
+            //         'status' => 'approved',
+            //         'customer_name' => $customer->name,
+            //         'customer_phone' => $customer->phone,
+            //         'customer_email' => $customer->email,
+            //         'appointment_start' => $appointment->date . ' ' . $appointment->time,
+            //         'information_formated' => '.'.my_date_show($appointment->date).' '.trans('at').' '.$appointment->time.' '.trans('is').' '.$status_text,
+            //         'price' => $service->price,
+            //         'service_duration' => $service->duration,
+            //         'duration_type' => $service->duration_type,
+            //         'staff_name' => $staff->name
+            //     ]);
                 
-                $ch = curl_init($webhook_url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-                $response = curl_exec($ch);
-                curl_close($ch);
+            //     $ch = curl_init($webhook_url);
+            //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            //     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+            //     curl_setopt($ch, CURLOPT_POST, true);
+            //     curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            //     $response = curl_exec($ch);
+            //     curl_close($ch);
 
-                // Log para debug
-                if ($response === false) {
-                    log_message('error', 'Erro no Webhook: ' . $error);
-                } else {
-                    log_message('info', 'Webhook enviado com sucesso: ' . $response);
-                }
-            } else {
-                log_message('error', 'Webhook não enviado: URL do webhook vazia.');
-            }
+            //     // Log para debug
+            //     if ($response === false) {
+            //         log_message('error', 'Erro no Webhook: ' . $error);
+            //     } else {
+            //         log_message('info', 'Webhook enviado com sucesso: ' . $response);
+            //     }
+            // } else {
+            //     log_message('error', 'Webhook não enviado: URL do webhook vazia.');
+            // }
         }
 
         if($status == 2){
@@ -468,7 +468,63 @@ class Appointment extends Home_Controller {
         
         echo json_encode(array('st' => 1));
     }
-    
+
+    public function send_payment_webhook($appointment_id)
+    {
+        // Verificar se o pagamento foi efetuado
+        if (!check_appointment_payment($appointment_id)) {
+            echo json_encode(['status' => 'pending', 'message' => 'Pagamento ainda não realizado.']);
+            return;
+        }
+
+        // Obter detalhes do agendamento
+        $appointment = $this->admin_model->get_by_id($appointment_id, 'appointments');
+        $customer = $this->admin_model->get_by_id($appointment->customer_id, 'customers');
+        $service = $this->admin_model->get_by_id($appointment->service_id, 'services');
+        $staff = $this->admin_model->get_by_id($appointment->staff_id, 'staffs');
+
+        // Buscar os dados do usuário logado para pegar o webhook_url
+        $user = $this->admin_model->get_by_id(user()->id, 'users');
+
+        if (!empty($user->webhook_url)) {
+            $webhook_url = $user->webhook_url;
+            $payload = json_encode([
+                'appointment_id' => $appointment_id,
+                'status' => 'paid',
+                'customer_name' => $customer->name,
+                'customer_phone' => $customer->phone,
+                'customer_email' => $customer->email,
+                'appointment_start' => $appointment->date . ' ' . $appointment->time,
+                'information_formated' => my_date_show($appointment->date) . ' ' . trans('at') . ' ' . $appointment->time . ' ' . trans('is') . ' ' . trans('paid'),
+                'price' => $service->price,
+                'service_duration' => $service->duration,
+                'duration_type' => $service->duration_type,
+                'staff_name' => $staff->name
+            ]);
+
+            // Enviar requisição do webhook
+            $ch = curl_init($webhook_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            $response = curl_exec($ch);
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            // Log para debug
+            if ($response === false) {
+                log_message('error', 'Erro ao enviar Webhook: ' . $error);
+                echo json_encode(['status' => 'error', 'message' => 'Erro ao enviar webhook.']);
+            } else {
+                log_message('info', 'Webhook de pagamento enviado com sucesso: ' . $response);
+                echo json_encode(['status' => 'success', 'message' => 'Webhook enviado com sucesso.']);
+            }
+        } else {
+            log_message('error', 'Webhook não enviado: URL do webhook vazia.');
+            echo json_encode(['status' => 'error', 'message' => 'URL do webhook não configurada.']);
+        }
+    }
 
     public function notify_customer($id) 
     {
