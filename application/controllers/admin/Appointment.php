@@ -358,6 +358,9 @@ class Appointment extends Home_Controller {
             $service = $this->admin_model->get_by_id($appointment->service_id, 'services');
             $staff = $this->admin_model->get_by_id($appointment->staff_id, 'staffs');
 
+            // Buscar os dados do usuário logado para pegar o webhook_url
+            $user = $this->admin_model->get_by_id(user()->id, 'users');
+
             if (!empty($user->webhook_url)) {
                 // Enviar webhook ao mudar para aprovado
                 $webhook_url = $user->webhook_url;
@@ -383,6 +386,15 @@ class Appointment extends Home_Controller {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
                 $response = curl_exec($ch);
                 curl_close($ch);
+
+                // Log para debug
+                if ($response === false) {
+                    log_message('error', 'Erro no Webhook: ' . $error);
+                } else {
+                    log_message('info', 'Webhook enviado com sucesso: ' . $response);
+                }
+            } else {
+                log_message('error', 'Webhook não enviado: URL do webhook vazia.');
             }
         }
 
