@@ -11,6 +11,42 @@ class Customer extends Home_Controller {
         }
     }
 
+    private function send_webhook($appointment_id, $status)
+    {
+        $appointment = $this->admin_model->get_by_id($appointment_id, 'appointments');
+        $customer = $this->admin_model->get_by_id($appointment->customer_id, 'customers');
+        $service = $this->admin_model->get_by_id($appointment->service_id, 'services');
+        $staff = $this->admin_model->get_by_id($appointment->staff_id, 'staffs');
+        $user = $this->admin_model->get_by_id($appointment->user_id, 'users');
+
+        if (!empty($user->webhook_url)) {
+            $webhook_url = $user->webhook_url;
+            $payload = json_encode([
+                'appointment_id' => $appointment_id,
+                'status' => $status,
+                'customer_name' => $customer->name,
+                'customer_phone' => $customer->phone,
+                'customer_email' => $customer->email,
+                'appointment_start' => $appointment->date . ' ' . $appointment->time,
+                'information_formated' => '.'.my_date_show($appointment->date).' '.trans('at').' '.$appointment->time.' '.trans('is').' '.$status,
+                'price' => $service->price,
+                'service_duration' => $service->duration,
+                'duration_type' => $service->duration_type,
+                'staff_name' => $staff->name
+            ]);
+
+            $ch = curl_init($webhook_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            log_message('info', 'Webhook enviado: ' . $response);
+        }
+    }
+
     public function appointments()
     {   
         $data = array();
@@ -74,6 +110,8 @@ class Customer extends Home_Controller {
 
         $payment = MercadoPago\Payment::find_by_id($merchant_order);
         $merchant_order = MercadoPago\MerchantOrder::find_by_id($payment->order->id);
+
+        $this->send_webhook($this->session->userdata('appointment_id'), 'paid');
 
         //$merchant_order->payments
         redirect(base_url('admin/payment/payment_success/'.$appointment->id.'/mercadopago'));
@@ -254,6 +292,7 @@ class Customer extends Home_Controller {
         }
 
         echo json_encode(array('st' => 1));
+        $this->send_webhook($id, 'cancelled');
     }
 
 

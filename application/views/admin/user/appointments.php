@@ -539,14 +539,14 @@
                                    
                                           <?php if ($check_payment == true): ?>
                                             <span class="text-success font-weight-bold fs-12"><i class="fas fa-check-circle"></i> <?php echo trans('paid') ?></span>
-                                            <script>
+                                            <!-- <script>
                                               // Disparar webhook via AJAX quando o pagamento for "PAGO"
                                               fetch("<?= base_url('admin/appointment/send_payment_webhook/' . $appointment->id) ?>", {
                                                   method: "GET"
                                               }).then(response => response.json())
                                                 .then(data => console.log("Webhook enviado:", data))
                                                 .catch(error => console.error("Erro ao enviar webhook:", error));
-                                            </script>
+                                            </script> -->
                                           <?php else: ?>
                                             <?php if ($appointment->price != 0): ?>
                                               <span class="text-warning font-weight-bold fs-12"><i class="far fa-clock"></i> <?php echo trans('pending') ?></span>
