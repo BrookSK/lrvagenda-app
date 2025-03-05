@@ -471,6 +471,8 @@ class Appointment extends Home_Controller {
 
     public function send_payment_webhook($appointment_id)
     {
+        header('Content-Type: application/json'); // Define o tipo de resposta como JSON
+
         // Verificar se o pagamento foi efetuado
         if (!check_appointment_payment($appointment_id)) {
             echo json_encode(['status' => 'pending', 'message' => 'Pagamento ainda não realizado.']);
