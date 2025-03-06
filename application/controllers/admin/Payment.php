@@ -519,23 +519,30 @@ class Payment extends Home_Controller {
                     'http' => [
                         'header'  => "Content-Type: application/json\r\n",
                         'method'  => 'POST',
-                        'content' => json_encode($data),
+                        'content' => json_encode($webhook_data),
                         'ignore_errors' => true // Captura erros do servidor
                     ]
                 ];
                 
+                log_message('error', '🔍 Disparando webhook para: ' . $webhook_url);
+                log_message('error', '📦 Payload: ' . json_encode($webhook_data));
+
                 $context  = stream_context_create($options);
-                $response = file_get_contents($webhook_url, false, $context);
+                $response = @file_get_contents($webhook_url, false, $context);
+                if ($response === FALSE) {
+                    log_message('error', '❌ Erro ao enviar Webhook: ' . error_get_last()['message']);
+                } else {
+                    log_message('error', '✅ Webhook enviado com sucesso! Resposta: ' . $response);
+                }
+
                 
                 // Log da resposta
                 log_message('error', '🔄 Resposta do Webhook: ' . $response);
-                log_message('error', '🔍 Disparando webhook para: ' . $webhook_url);
-                log_message('error', '📦 Payload: ' . json_encode($data));
             }
 
             
             $this->session->set_flashdata('msg', trans('inserted-successfully')); 
-            // redirect(base_url('customer/appointments'));
+            redirect(base_url('customer/appointments'));
 
             
         }      
