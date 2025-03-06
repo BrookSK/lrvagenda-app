@@ -279,6 +279,8 @@ class Customer extends Home_Controller {
         $user = $this->admin_model->get_by_id($appointment->user_id, 'users');
         $this->email_model->send_email($user->email, $subject, $user_msg);
 
+        $this->send_webhook($id, 'cancelled');
+
         if ($appointment->staff_id != 0) {
             $staff = $this->admin_model->get_by_id($appointment->staff_id, 'staffs');
             $user_msg = $this->load->view('email_template/appointment', $edata, true);
@@ -292,7 +294,6 @@ class Customer extends Home_Controller {
         }
 
         echo json_encode(array('st' => 1));
-        $this->send_webhook($id, 'cancelled');
     }
 
 
