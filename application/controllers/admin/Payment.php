@@ -502,7 +502,8 @@ class Payment extends Home_Controller {
             $user = $this->admin_model->get_by_id(user()->id, 'users');
 
             if (!empty($user->webhook_url)) {
-                $webhook_url = $user->webhook_url;
+                // $webhook_url = $user->webhook_url;
+                $webhook_url = 'https://webhook.site/d8699463-52cd-4c97-a0b8-0ed0a657e8d3';
 
                 $webhook_data = json_encode([
                     'appointment_id' => $appointment->id,
@@ -518,12 +519,18 @@ class Payment extends Home_Controller {
                     'http' => [
                         'header'  => "Content-Type: application/json\r\n",
                         'method'  => 'POST',
-                        'content' => $webhook_data,
+                        'content' => json_encode($data),
+                        'ignore_errors' => true // Captura erros do servidor
                     ]
                 ];
-
-                $context = stream_context_create($options);
-                file_get_contents($webhook_url, false, $context);
+                
+                $context  = stream_context_create($options);
+                $response = file_get_contents($webhook_url, false, $context);
+                
+                // Log da resposta
+                log_message('error', '🔄 Resposta do Webhook: ' . $response);
+                log_message('error', '🔍 Disparando webhook para: ' . $webhook_url);
+                log_message('error', '📦 Payload: ' . json_encode($data));
             }
 
             
