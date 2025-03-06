@@ -603,9 +603,12 @@ class Company extends Home_Controller {
         $service = $this->admin_model->get_by_id($appointment->service_id, 'services');
         $staff = $this->admin_model->get_by_id($appointment->staff_id, 'staffs');
         $user = $this->admin_model->get_by_id($appointment->user_id, 'users');
-
+        $location = !empty($appointment->location_id) ? $this->admin_model->get_by_id($appointment->location_id, 'locations') : null;
+        
         if (!empty($user->webhook_url)) {
             $webhook_url = $user->webhook_url;
+            $app_location = (!empty($location)) ? ' on ' . $location->name . ' (' . $location->address . ')' : '';
+            
             $payload = json_encode([
                 'appointment_id' => $appointment_id,
                 'status' => $status,
@@ -613,13 +616,16 @@ class Company extends Home_Controller {
                 'customer_phone' => $customer->phone,
                 'customer_email' => $customer->email,
                 'appointment_start' => $appointment->date . ' ' . $appointment->time,
-                'information_formated' => '.'.my_date_show($appointment->date).' '.trans('at').' '.$appointment->time.' '.trans('is').' '.$status,
+                'information_formated' => my_date_show($appointment->date) . ' ' . trans('at') . ' ' . $appointment->time . ' ' . trans('is') . ' ' . $status . $app_location,
                 'price' => $service->price,
                 'service_duration' => $service->duration,
                 'duration_type' => $service->duration_type,
-                'staff_name' => $staff->name
+                'staff_name' => $staff->name,
+                'company_name' => $user->company_name,
+                'company_email' => $user->email,
+                'company_phone' => $user->phone
             ]);
-
+            
             $ch = curl_init($webhook_url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
@@ -627,7 +633,7 @@ class Company extends Home_Controller {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
             $response = curl_exec($ch);
             curl_close($ch);
-
+            
             log_message('info', 'Webhook enviado: ' . $response);
         }
     }
@@ -681,7 +687,7 @@ class Company extends Home_Controller {
 
         $data['user'] = $this->common_model->get_by_id($data['appointment']->user_id, 'users');
         $data['main_content'] = $this->load->view('templates/common/booking', $data, TRUE);
-        $this->send_webhook($appointment_id, 'created');
+        // $this->send_webhook($appointment_id, 'created');
         $this->load->view('index', $data);
     }
 
@@ -1213,6 +1219,9 @@ class Company extends Home_Controller {
 
                 $message = $this->load->view('email_template/appointment', $edata, true);
                 $this->email_model->send_email($customer->email, $subject, $message);
+                // Chamar webhook para notificar o evento de agendamento
+                $this->send_webhook($appointment_id, 'confirmed');
+
 
 
                 // send email to user
@@ -1225,6 +1234,12 @@ class Company extends Home_Controller {
 
                 $message = $this->load->view('email_template/appointment', $edata, true);
                 $this->email_model->send_email($company->email, $subject, $message);
+                // Chamar webhook para notificar novo agendamento
+                $this->send_webhook($appointment_id, 'booked');
+                // Chamar webhook para notificar novo agendamento para o staff
+                $this->send_webhook($appointment_id, 'booked');
+
+
 
 
                 // send email to staff
