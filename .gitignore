@@ -19,3 +19,4 @@ Thumbs.db
 .vscode/
 *.~undo-tree~
 application/config/database.php
+error_log
