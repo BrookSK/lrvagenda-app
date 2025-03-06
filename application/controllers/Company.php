@@ -630,12 +630,20 @@ class Company extends Home_Controller {
             $ch = curl_init($webhook_url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST"); // Força a requisição como POST
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Segue redirecionamentos, se houver
+
             $response = curl_exec($ch);
+
+            if ($response === false) {
+                $error = curl_error($ch);
+                log_message('error', 'Erro ao enviar webhook: ' . $error);
+            } else {
+                log_message('info', 'Webhook enviado com sucesso: ' . $response);
+            }
+
             curl_close($ch);
-            
-            log_message('info', 'Webhook enviado: ' . $response);
         }
     }
 
