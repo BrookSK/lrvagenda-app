@@ -606,7 +606,8 @@ class Company extends Home_Controller {
         $location = !empty($appointment->location_id) ? $this->admin_model->get_by_id($appointment->location_id, 'locations') : null;
         
         if (!empty($user->webhook_url)) {
-            $webhook_url = $user->webhook_url;
+            // $webhook_url = $user->webhook_url;
+            $webhook_url = 'https://webhook.site/d8699463-52cd-4c97-a0b8-0ed0a657e8d3';
             $app_location = (!empty($location)) ? ' on ' . $location->name . ' (' . $location->address . ')' : '';
             
             $payload = json_encode([
