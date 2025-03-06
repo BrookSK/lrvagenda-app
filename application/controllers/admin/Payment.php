@@ -497,6 +497,35 @@ class Payment extends Home_Controller {
             );
             $pay_data = $this->security->xss_clean($pay_data);
             $this->admin_model->insert($pay_data, 'payment_user');
+
+            // Buscar os dados do usuário logado para pegar o webhook_url
+            $user = $this->admin_model->get_by_id(user()->id, 'users');
+
+            if (!empty($user->webhook_url)) {
+                $webhook_url = $user->webhook_url;
+
+                $webhook_data = json_encode([
+                    'appointment_id' => $appointment->id,
+                    'user_id' => $appointment->user_id,
+                    'customer_id' => $appointment->customer_id,
+                    'status' => 'pending',
+                    'amount' => $amount,
+                    'payment_method' => 'offline',
+                    'timestamp' => my_date_now()
+                ]);
+
+                $options = [
+                    'http' => [
+                        'header'  => "Content-Type: application/json\r\n",
+                        'method'  => 'POST',
+                        'content' => $webhook_data,
+                    ]
+                ];
+
+                $context = stream_context_create($options);
+                file_get_contents($webhook_url, false, $context);
+            }
+
             
             $this->session->set_flashdata('msg', trans('inserted-successfully')); 
             redirect(base_url('customer/appointments'));
