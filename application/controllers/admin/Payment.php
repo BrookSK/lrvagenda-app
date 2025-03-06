@@ -535,7 +535,7 @@ class Payment extends Home_Controller {
 
             
             $this->session->set_flashdata('msg', trans('inserted-successfully')); 
-            redirect(base_url('customer/appointments'));
+            // redirect(base_url('customer/appointments'));
 
             
         }      
