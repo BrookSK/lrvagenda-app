@@ -596,6 +596,57 @@ class Company extends Home_Controller {
         }
     }
 
+    // private function send_webhook($appointment_id, $status)
+    // {
+    //     $appointment = $this->admin_model->get_by_id($appointment_id, 'appointments');
+    //     $customer = $this->admin_model->get_by_id($appointment->customer_id, 'customers');
+    //     $service = $this->admin_model->get_by_id($appointment->service_id, 'services');
+    //     $staff = $this->admin_model->get_by_id($appointment->staff_id, 'staffs');
+    //     $user = $this->admin_model->get_by_id($appointment->user_id, 'users');
+    //     $location = !empty($appointment->location_id) ? $this->admin_model->get_by_id($appointment->location_id, 'locations') : null;
+        
+    //     if (!empty($user->webhook_url)) {
+    //         // $webhook_url = $user->webhook_url;
+    //         $webhook_url = 'https://webhook.site/d8699463-52cd-4c97-a0b8-0ed0a657e8d3';
+    //         $app_location = (!empty($location)) ? ' on ' . $location->name . ' (' . $location->address . ')' : '';
+            
+    //         $payload = json_encode([
+    //             'appointment_id' => $appointment_id,
+    //             'status' => $status,
+    //             'customer_name' => $customer->name,
+    //             'customer_phone' => $customer->phone,
+    //             'customer_email' => $customer->email,
+    //             'appointment_start' => $appointment->date . ' ' . $appointment->time,
+    //             'information_formated' => my_date_show($appointment->date) . ' ' . trans('at') . ' ' . $appointment->time . ' ' . trans('is') . ' ' . $status . $app_location,
+    //             'price' => $service->price,
+    //             'service_duration' => $service->duration,
+    //             'duration_type' => $service->duration_type,
+    //             'staff_name' => $staff->name,
+    //             'company_name' => $user->company_name,
+    //             'company_email' => $user->email,
+    //             'company_phone' => $user->phone
+    //         ]);
+            
+    //         $ch = curl_init($webhook_url);
+    //         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    //         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST"); // Força a requisição como POST
+    //         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+    //         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Segue redirecionamentos, se houver
+
+    //         $response = curl_exec($ch);
+
+    //         if ($response === false) {
+    //             $error = curl_error($ch);
+    //             log_message('error', 'Erro ao enviar webhook: ' . $error);
+    //         } else {
+    //             log_message('info', 'Webhook enviado com sucesso: ' . $response);
+    //         }
+
+    //         curl_close($ch);
+    //     }
+    // }
+
     private function send_webhook($appointment_id, $status)
     {
         $appointment = $this->admin_model->get_by_id($appointment_id, 'appointments');
@@ -604,12 +655,9 @@ class Company extends Home_Controller {
         $staff = $this->admin_model->get_by_id($appointment->staff_id, 'staffs');
         $user = $this->admin_model->get_by_id($appointment->user_id, 'users');
         $location = !empty($appointment->location_id) ? $this->admin_model->get_by_id($appointment->location_id, 'locations') : null;
-        
+
         if (!empty($user->webhook_url)) {
-            // $webhook_url = $user->webhook_url;
-            $webhook_url = 'https://webhook.site/d8699463-52cd-4c97-a0b8-0ed0a657e8d3';
-            $app_location = (!empty($location)) ? ' on ' . $location->name . ' (' . $location->address . ')' : '';
-            
+            $webhook_url = $user->webhook_url;
             $payload = json_encode([
                 'appointment_id' => $appointment_id,
                 'status' => $status,
@@ -626,24 +674,16 @@ class Company extends Home_Controller {
                 'company_email' => $user->email,
                 'company_phone' => $user->phone
             ]);
-            
+
             $ch = curl_init($webhook_url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST"); // Força a requisição como POST
+            curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Segue redirecionamentos, se houver
-
             $response = curl_exec($ch);
-
-            if ($response === false) {
-                $error = curl_error($ch);
-                log_message('error', 'Erro ao enviar webhook: ' . $error);
-            } else {
-                log_message('info', 'Webhook enviado com sucesso: ' . $response);
-            }
-
             curl_close($ch);
+
+            log_message('info', 'Webhook enviado: ' . $response);
         }
     }
 
