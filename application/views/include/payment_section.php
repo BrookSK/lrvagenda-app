@@ -355,7 +355,7 @@
                                 </div>
 
                                 <form enctype="multipart/form-data" action="<?php echo base_url('admin/payment/offline_payment_customer/'.$appointment->id) ?>" method="post" class="form-horizontal mt-3">
-                                    
+                                    <?php var_dump($webhook_data); ?>
                                     <div class="form-group text-left pt-3 pb-3">
                                         <label for="exampleFormControlFile1"><?php echo trans('upload-payment-proof') ?></label>
                                         <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1" required>
