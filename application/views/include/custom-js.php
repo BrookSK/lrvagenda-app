@@ -14,7 +14,7 @@
             var base_url = $('#base_url').val();
             var business_id = <?php echo html_escape($company_id) ?>;
             var arrayFromPHP = <?php echo json_encode($not_available) ?>;
-            var disabledDays = <?php echo $holidays; ?>
+            var disabledDays = <?php echo !empty($holidays) ? $holidays : '[]'; ?>
 
             $.datepicker.regional ['en'] = {
                 clearText: 'Clear', 

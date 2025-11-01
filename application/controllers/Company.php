@@ -404,6 +404,8 @@ class Company extends Home_Controller {
         $data['page'] = 'Company';
         $data['page_title'] = 'Booking';
         $data['company_id'] = $data['company']->uid;
+        // Provide holidays for datepicker initialization on first load
+        $data['holidays'] = $data['company']->holidays;
         if ($data['company']->enable_category == 1) {
             $data['categories'] = $this->common_model->get_category_services($data['company']->uid);
         }else{
