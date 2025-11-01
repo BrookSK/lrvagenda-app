@@ -74,6 +74,10 @@
                                     <label><?php echo trans('token') ?></label>
                                       <input type="text" name="wazfy_token" value="<?php echo html_escape($this->business->wazfy_token); ?>" class="form-control" >
                                   </div>
+                                  <div class="form-group">
+                                    <label>Webhook URL</label>
+                                      <input type="url" name="webhook_url" value="<?php echo html_escape($this->business->webhook_url); ?>" class="form-control" placeholder="https://example.com/webhook">
+                                  </div>
                                 </div>
                               </div>
 

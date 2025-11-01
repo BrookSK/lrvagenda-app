@@ -496,7 +496,8 @@ class Settings extends Home_Controller {
             'ultramsg_token' => $this->input->post('ultramsg_token', true),
             'wazfy_instance_id' => $this->input->post('wazfy_instance_id', true),
             'wazfy_token' => $this->input->post('wazfy_token', true),
-            'enable_whatsapp_msg' => $enable_whatsapp_msg
+            'enable_whatsapp_msg' => $enable_whatsapp_msg,
+            'webhook_url' => $this->input->post('webhook_url', true)
         );
   
         $data = $this->security->xss_clean($data);

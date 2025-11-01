@@ -288,7 +288,7 @@ class Appointment extends Home_Controller {
                         exit();
                     }
                     
-                    $this->admin_model->insert($data, 'appointments');
+                    $new_id = $this->admin_model->insert($data, 'appointments');
                     $this->session->set_flashdata('msg', trans('inserted-successfully')); 
 
                     $customer = $this->admin_model->get_by_id($this->input->post('customer_id'), 'customers');
@@ -330,6 +330,12 @@ class Appointment extends Home_Controller {
                         $this->email_model->send_email($customer->email, $subject, $message);
                         
                     }
+
+                    // send webhook if approved
+                    $company = isset($company) ? $company : $this->admin_model->get_business($this->business->uid);
+                    if (file_exists(APPPATH.'libraries/Webhook.php')) { include_once(APPPATH.'libraries/Webhook.php'); }
+                    $appointment_obj = $this->admin_model->get_by_id($new_id, 'appointments');
+                    if (function_exists('sendWebhook')) { sendWebhook($company, $appointment_obj, $customer, $service); }
                     
                 }
 
