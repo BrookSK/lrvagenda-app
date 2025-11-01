@@ -1,13 +1,12 @@
-
-
-<div class="row <?php if (isset($service_extras) && !empty($service_extras[0])){echo "py-3";} ?>">
+<div class="row <?php if (isset($service_extras) && is_array($service_extras) && !empty($service_extras) && !empty($service_extras[0])){echo "py-3";} ?>">
   
-  <?php if (isset($service_extras) && !empty($service_extras[0])): ?>
+  <?php if (isset($service_extras) && is_array($service_extras) && !empty($service_extras) && !empty($service_extras[0])): ?>
     <div class="col-md-12 mb-1">
       <p class="mb-0 text-dark fs-15 font-weight-bold"><?php echo trans('service-extra') ?></p>
     </div>
   <?php endif ?>
 
+  <?php if (isset($service_extras) && is_array($service_extras)): ?>
   <?php $s=1; foreach ($service_extras as $service_extra): ?>
     <?php if (!empty($service_extra) && get_by_id($service_extra,'service_extra')->status != 2): ?>
         <div class="col-md-6 mb-4 pr-3" data-aos="fade-up" data-aos-delay="<?php echo $s*50 ?>">
@@ -29,4 +28,5 @@
         </div>
     <?php endif ?>
   <?php $s++; endforeach; ?>
+  <?php endif; ?>
 </div>
