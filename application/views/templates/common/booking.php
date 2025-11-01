@@ -235,7 +235,7 @@
                                             <select class="cus_lh booking_time_zone form-control select2" name="time_zone" style="width: 100%;" >
                                                 <option value=""><?php echo trans('select') ?></option>
                                                 <?php foreach ($time_zones as $time): ?>
-                                                    <option <?php if(is_customer() && user()->time_zone == $time->id){echo 'selected';} ?> value="<?php echo html_escape($time->id); ?>"><?php echo html_escape($time->name); ?>
+                                                    <option <?php if(is_customer() && isset(user()->time_zone) && user()->time_zone == $time->id){echo 'selected';} ?> value="<?php echo html_escape($time->id); ?>"><?php echo html_escape($time->name); ?>
                                                     </option>
                                                 <?php endforeach ?>
                                             </select>
