@@ -4,7 +4,12 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8 m-auto">
-          <a class="btn btn-light-secondary btn-sm btn-pill mb-2" href="<?php echo $_SERVER['HTTP_REFERER'] ?>"><i class="lni lni-arrow-left"></i> Back</a>
+          <?php 
+            $backUrl = isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']) 
+              ? $_SERVER['HTTP_REFERER'] 
+              : ((isset($is_cdomain) && $is_cdomain == true) ? base_url() : base_url($slug));
+          ?>
+          <a class="btn btn-light-secondary btn-sm btn-pill mb-2" href="<?php echo $backUrl; ?>"><i class="lni lni-arrow-left"></i> Back</a>
           <div class="card">
               <div class="card-body p-0">
                   <div class="col-12 text-center p-0">
