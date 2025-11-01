@@ -140,3 +140,37 @@ if (typeof jQuery === 'undefined') {
 
 	$.fn.intlInputPhone = Plugin
 })(jQuery);
+
+// Fallback basic phone number parser used by IntlInputPhone.validate
+// Returns an object on success or an error code string on failure
+if (typeof phoneNumberParser === 'undefined') {
+  function phoneNumberParser() {
+    try {
+      var numInput = document.getElementById('phoneNumber');
+      var ccInput = document.getElementById('carrierCode');
+      var countryInput = document.getElementById('defaultCountry');
+
+      var raw = numInput ? (numInput.value || '') : '';
+      var callingCode = ccInput ? (ccInput.value || '') : '';
+      var country = countryInput ? (countryInput.value || '') : '';
+
+      var digits = (raw + '').replace(/\D+/g, '');
+      if (!callingCode || /\D/.test(callingCode)) return 'INVALID_COUNTRY_CODE';
+      if (digits.length < 6) return 'TOO_SHORT';
+      if (digits.length > 15) return 'TOO_LONG';
+
+      var full = '+' + callingCode + digits;
+      if (!/^\+\d{6,16}$/.test(full)) return 'INVALID_PH_N';
+
+      return {
+        number: full,
+        nationalNumber: digits,
+        countryCode: country.toUpperCase(),
+        callingCode: callingCode,
+        isValid: true
+      };
+    } catch (e) {
+      return 'UNKNOWN';
+    }
+  }
+}
