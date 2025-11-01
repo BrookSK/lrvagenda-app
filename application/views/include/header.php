@@ -84,10 +84,12 @@
     <!-- overwrite css -->
 
     <?php if($page == 'Company'): ?>
-    <?php $font = get_by_id($company->font,'fonts')->name; ?>
-    <?php $rgb = hex2rgb($company->color) ?>
+    <?php $font_obj = isset($company) ? get_by_id($company->font,'fonts') : null; ?>
+    <?php $font = (!empty($font_obj) && isset($font_obj->name)) ? $font_obj->name : 'Nunito Sans'; ?>
+    <?php $comp_color = isset($company->color) ? $company->color : settings()->site_color; ?>
+    <?php $rgb = hex2rgb($comp_color) ?>
     <link href="https://fonts.googleapis.com/css?family=<?php echo str_replace(' ', '+', $font); ?>:400,500,600,700" rel="stylesheet">
-    <link href="<?php echo base_url() ?>assets/front/css/style-company-over.php?color=<?php echo html_escape($company->color); ?>&font=<?php echo str_replace(' ', '+', $font).'&rgb='.$rgb ?>" rel="stylesheet">
+    <link href="<?php echo base_url() ?>assets/front/css/style-company-over.php?color=<?php echo html_escape($comp_color); ?>&font=<?php echo str_replace(' ', '+', $font).'&rgb='.$rgb ?>" rel="stylesheet">
     <?php else: ?>
     <?php $rgb = hex2rgb(settings()->site_color) ?>
     <link href="<?php echo base_url() ?>assets/front/css/style-over.php?color=<?php echo settings()->site_color; ?>&rgb=<?php echo $rgb ?>" rel="stylesheet">
