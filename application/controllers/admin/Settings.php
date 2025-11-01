@@ -931,33 +931,21 @@ class Settings extends Home_Controller {
                         $end_time = $this->input->post("end_time_".$i);
                     }
 
-                    $phpversion = phpversion();
-                    if ($phpversion <= 8.0) {
-                        for ($a=0; $a < count($start_time); $a++) {
-                            $time_data = array(
-                                'user_id' => $user_id,
-                                'business_id' => $this->business->uid,
-                                'day_id' => $day,
-                                'time' => date("H:i", strtotime($start_time[$a])).'-'.date("H:i", strtotime($end_time[$a])),
-                                'start' => date("H:i", strtotime($start_time[$a])),
-                                'end' => date("H:i", strtotime($end_time[$a]))
-                            );
-                            $time_data = $this->security->xss_clean($time_data);
-                            $this->admin_model->insert($time_data, 'working_time');
-                        }
-                    }else{
-                        for ($a=0; $a < is_countable($start_time) && count($start_time); $a++) {
-                            $time_data = array(
-                                'user_id' => $user_id,
-                                'business_id' => $this->business->uid,
-                                'day_id' => $day,
-                                'time' => date("H:i", strtotime($start_time[$a])).'-'.date("H:i", strtotime($end_time[$a])),
-                                'start' => date("H:i", strtotime($start_time[$a])),
-                                'end' => date("H:i", strtotime($end_time[$a]))
-                            );
-                            $time_data = $this->security->xss_clean($time_data);
-                            $this->admin_model->insert($time_data, 'working_time');
-                        }
+                    // Normalize to arrays to avoid count() on non-countable and handle PHP 7/8
+                    $start_time = is_array($start_time) ? $start_time : array();
+                    $end_time = is_array($end_time) ? $end_time : array();
+                    $limit = min(count($start_time), count($end_time));
+                    for ($a = 0; $a < $limit; $a++) {
+                        $time_data = array(
+                            'user_id' => $user_id,
+                            'business_id' => $this->business->uid,
+                            'day_id' => $day,
+                            'time' => date("H:i", strtotime($start_time[$a])).'-'.date("H:i", strtotime($end_time[$a])),
+                            'start' => date("H:i", strtotime($start_time[$a])),
+                            'end' => date("H:i", strtotime($end_time[$a]))
+                        );
+                        $time_data = $this->security->xss_clean($time_data);
+                        $this->admin_model->insert($time_data, 'working_time');
                     }
                     
                 }
