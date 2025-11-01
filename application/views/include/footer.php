@@ -129,8 +129,7 @@
     <script src="<?php echo base_url() ?>assets/admin/js/bootstrap-datepicker.min.js"></script>
     <script src="<?php echo base_url()?>assets/admin/js/timepicker.min.js"></script>
     <script src="<?php echo base_url() ?>assets/front/js/lightbox.js"></script>
-    <script src="<?php echo base_url() ?>assets/front/js/intlInputPhone.js"></script>
-
+    <script src="<?php echo base_url() ?>assets/front/js/intlInputPhone.js?var=<?= settings()->version ?>&time=<?= time(); ?>"></script>
 
     <script src="<?php echo base_url() ?>assets/admin/plugins/datatables/jquery.dataTables.js"></script>
     <script src="<?php echo base_url() ?>assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>

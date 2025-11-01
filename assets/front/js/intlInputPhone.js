@@ -101,7 +101,9 @@ if (typeof jQuery === 'undefined') {
 		if (typeof this.display_error == 'object') { this.display_error.remove(); }
 		el.removeAttr('data-container'); el.removeAttr('data-toggle'); el.removeAttr('data-placement'); el.removeAttr('data-content');
 		if (typeof el.popover === 'function') {
-			try { el.popover('dispose'); } catch(e) {}
+			try { el.popover('dispose'); } catch(e) {
+				try { el.popover('destroy'); } catch(e2) {}
+			}
 		}
 	}
 
