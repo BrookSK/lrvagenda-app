@@ -8,6 +8,27 @@ function sendWebhook($business, $appointment, $customer = null, $service = null)
         return;
     }
 
+    // collect custom fields (additional fields configured by the business owner)
+    $customFields = [];
+    if (!empty($appointment->id)) {
+        if (function_exists('get_instance')) {
+            $CI = get_instance();
+            if (isset($CI->db)) {
+                $CI->db->select('title, answer');
+                $CI->db->from('custom_form_answer');
+                $CI->db->where('booking_id', $appointment->id);
+                $query = $CI->db->get();
+                $rows = is_object($query) ? $query->result() : [];
+                foreach ($rows as $row) {
+                    $customFields[] = [
+                        'title' => $row->title,
+                        'value' => $row->answer,
+                    ];
+                }
+            }
+        }
+    }
+
     $payload = [
         "event" => "appointment_approved",
         "business_id" => $appointment->business_id,
@@ -25,7 +46,8 @@ function sendWebhook($business, $appointment, $customer = null, $service = null)
         "staff_id" => isset($appointment->staff_id) ? $appointment->staff_id : null,
         "date" => $appointment->date,
         "time" => $appointment->time,
-        "status" => "approved"
+        "status" => "approved",
+        "custom_fields" => $customFields,
     ];
 
     $payloadJson = json_encode($payload);
