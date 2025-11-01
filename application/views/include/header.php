@@ -20,7 +20,7 @@
 
 
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="theme-color" content="#286efb" />
     <meta name="msapplication-navbutton-color" content="#286efb" />
     <meta name="apple-mobile-web-app-status-bar-style" content="#286efb" />
@@ -89,10 +89,10 @@
     <?php $comp_color = isset($company->color) ? $company->color : settings()->site_color; ?>
     <?php $rgb = hex2rgb($comp_color) ?>
     <link href="https://fonts.googleapis.com/css?family=<?php echo str_replace(' ', '+', $font); ?>:400,500,600,700" rel="stylesheet">
-    <link href="<?php echo base_url() ?>assets/front/css/style-company-over.php?color=<?php echo html_escape($comp_color); ?>&font=<?php echo str_replace(' ', '+', $font).'&rgb='.$rgb ?>" rel="stylesheet">
+    <link href="<?php echo site_url('assets/style_company_over?color=' . rawurlencode($comp_color) . '&font=' . str_replace(' ', '+', $font) . '&rgb=' . $rgb) ?>" rel="stylesheet">
     <?php else: ?>
     <?php $rgb = hex2rgb(settings()->site_color) ?>
-    <link href="<?php echo base_url() ?>assets/front/css/style-over.php?color=<?php echo settings()->site_color; ?>&rgb=<?php echo $rgb ?>" rel="stylesheet">
+    <link href="<?php echo site_url('assets/style_over?color=' . rawurlencode(settings()->site_color) . '&rgb=' . $rgb) ?>" rel="stylesheet">
     <?php endif; ?>
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/front/libs/owl-carousel/dist/css/owl.carousel.min.css">
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/front/libs/owl-carousel/dist/css/owl.theme.default.min.css">

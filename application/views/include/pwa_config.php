@@ -23,4 +23,4 @@
 <link rel="icon" href="<?= $pwa_data['img_512'] ;?>" type="image/png" sizes="512x512">
 <link rel="icon" href="<?= $pwa_data['img_144'] ;?>" type="image/png" sizes="144x144">
 
-<link rel="manifest" href="<?= base_url(); ?>assets/pwa/manifest.php?pwa_data=<?= urlencode($pwa);?>&time=<?= time() ;?>" type="text/html">
+<link rel="manifest" href="<?= site_url('assets/manifest?pwa_data='.urlencode($pwa).'&time='.time());?>" type="application/manifest+json">
