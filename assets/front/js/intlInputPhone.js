@@ -99,7 +99,10 @@ if (typeof jQuery === 'undefined') {
 
 	IntlInputPhone.prototype.hideError = function(el) {
 		if (typeof this.display_error == 'object') { this.display_error.remove(); }
-		el.removeAttr('data-container'); el.removeAttr('data-toggle'); el.removeAttr('data-placement'); el.removeAttr('data-content'); el.popover('destroy');
+		el.removeAttr('data-container'); el.removeAttr('data-toggle'); el.removeAttr('data-placement'); el.removeAttr('data-content');
+		if (typeof el.popover === 'function') {
+			try { el.popover('dispose'); } catch(e) {}
+		}
 	}
 
 	IntlInputPhone.prototype.getErrorMessage = function(error_type) {
