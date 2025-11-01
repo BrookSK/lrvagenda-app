@@ -33,18 +33,18 @@
                  
                     <div class="form-group">
                       <label> <?php echo trans('name') ?> <span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" required name="name" value="<?php echo html_escape($user[0]['name']); ?>" >
+                      <input type="text" class="form-control" required name="name" value="<?php echo isset($user[0]['name']) ? html_escape($user[0]['name']) : '' ; ?>" >
                     </div>
 
                     <div class="form-group">
                       <label> <?php echo trans('slug') ?> <span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" required name="slug" value="<?php echo html_escape($business->slug); ?>" >
-                      <input type="hidden" name="business_id" value="<?php echo html_escape($business->id); ?>">
+                      <input type="text" class="form-control" required name="slug" value="<?php echo isset($business->slug) ? html_escape($business->slug) : '' ; ?>" >
+                      <input type="hidden" name="business_id" value="<?php echo isset($business->id) ? html_escape($business->id) : '' ; ?>">
                     </div>
 
                     <div class="form-group">
                       <label> <?php echo trans('email') ?> <span class="text-danger">*</span></label>
-                      <input type="text" class="form-control" required name="email" value="<?php echo html_escape($user[0]['email']); ?>" >
+                      <input type="text" class="form-control" required name="email" value="<?php echo isset($user[0]['email']) ? html_escape($user[0]['email']) : '' ; ?>" >
                     </div>
 
                     <div class="form-group">
@@ -62,7 +62,7 @@
                         <select class="form-control single_select" name="package" required>
                             <option value=""><?php echo trans('select') ?></option>
                             <?php foreach ($packages as $package): ?>
-                              <option <?php if($package->id == $payment->package_id){echo "selected";} ?> value="<?php echo html_escape($package->id) ?>"><?php echo html_escape($package->name) ?> </option>
+                              <option <?php if(isset($payment->package_id) && $package->id == $payment->package_id){echo "selected";} ?> value="<?php echo html_escape($package->id) ?>"><?php echo html_escape($package->name) ?> </option>
                             <?php endforeach ?>
                         </select>
                     </div>
@@ -71,10 +71,10 @@
                         <label><?php echo trans('subscription-type') ?></label>
                         <select class="form-control single_select" name="billing_type" required>
                             <option value=""><?php echo trans('select') ?></option>
-                            <option <?php if('monthly' == $payment->billing_type){echo "selected";} ?> value="monthly"><?php echo trans('monthly') ?></option>
-                            <option <?php if('yearly' == $payment->billing_type){echo "selected";} ?> value="yearly"><?php echo trans('yearly') ?></option>
+                            <option <?php if(isset($payment->billing_type) && 'monthly' == $payment->billing_type){echo "selected";} ?> value="monthly"><?php echo trans('monthly') ?></option>
+                            <option <?php if(isset($payment->billing_type) && 'yearly' == $payment->billing_type){echo "selected";} ?> value="yearly"><?php echo trans('yearly') ?></option>
                             <?php if (settings()->enable_lifetime == 1): ?>
-                              <option <?php if('lifetime' == $payment->billing_type){echo "selected";} ?> value="lifetime"><?php echo trans('lifetime') ?></option>
+                              <option <?php if(isset($payment->billing_type) && 'lifetime' == $payment->billing_type){echo "selected";} ?> value="lifetime"><?php echo trans('lifetime') ?></option>
                             <?php endif ?>
                         </select>
                     </div>
@@ -83,8 +83,8 @@
                         <label><?php echo trans('payment-status') ?></label>
                         <select class="form-control single_select" name="payment_status" required>
                             <option value=""><?php echo trans('select') ?></option>
-                            <option <?php if($payment->status == 'verified'){echo "selected";} ?> value="verified"><?php echo trans('verified') ?></option>
-                            <option <?php if($payment->status == 'pending'){echo "selected";} ?> value="pending"><?php echo trans('pending') ?></option>
+                            <option <?php if(isset($payment->status) && $payment->status == 'verified'){echo "selected";} ?> value="verified"><?php echo trans('verified') ?></option>
+                            <option <?php if(isset($payment->status) && $payment->status == 'pending'){echo "selected";} ?> value="pending"><?php echo trans('pending') ?></option>
                         </select>
                     </div>
 
@@ -107,7 +107,7 @@
                 </div>
 
                 <div class="card-footer">
-                    <input type="hidden" name="id" value="<?php echo html_escape($user['0']['id']); ?>">
+                    <input type="hidden" name="id" value="<?php echo isset($user[0]['id']) ? html_escape($user[0]['id']) : '' ; ?>">
                     <!-- csrf token -->
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
 

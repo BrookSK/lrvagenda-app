@@ -35,9 +35,9 @@
 */
 
 // The following values will probably need to be changed.
-$db['default']['username'] = "root";
-$db['default']['password'] = "";
-$db['default']['database'] = "lrvagenda";
+$db['default']['username'] = "agenda_l1_lrvaoxioweb";
+$db['default']['password'] = "8dw?s55K1";
+$db['default']['database'] = "agenda_l1_lrvaoxioweb";
 
 // The following values can probably stay the same.
 $db['default']['hostname'] = "localhost";
